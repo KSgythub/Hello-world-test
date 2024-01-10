@@ -18,7 +18,7 @@ jobs:
 
     - name: Set up Cloud SDK for Dev
       if: contains(github.ref, 'dev/')
-      uses: google-github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@v0
       with:
         service_account_key: ${{ secrets.DEV_GCP_SA_KEY }}
         project_id: ${{ secrets.DEV_GCP_PROJECT_ID }}
