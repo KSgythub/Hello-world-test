@@ -33,7 +33,7 @@ jobs:
 
     - name: Build 
       run: |
-        gcloud auth configure-docker 
+        # gcloud auth configure-docker 
         gcloud auth configure-docker us-east1-docker.pkg.dev 
         docker build -t us-east1-docker.pkg.dev/hello-world-begin/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
         # docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }} -f docker/Dockerfile .
@@ -43,7 +43,7 @@ jobs:
 
     - name: Push Docker image
       run: |
-        docker push us-east1-docker.pkg.dev/${{ env.PROJECT_ID }}/images/hello-world:${{ github.sha }}
+        docker push us-east1-docker.pkg.dev/hello-world-begin/images/hello-world:${{ github.sha }}
         # docker push gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }}
       
     - name: Initialize Terraform
