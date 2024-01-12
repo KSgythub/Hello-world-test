@@ -35,16 +35,16 @@ jobs:
       run: |
         gcloud auth configure-docker --quiet
         gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
-        # docker build -t us-east1-docker.pkg.dev/${{ env.PROJECT_ID }}/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
-        docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }} -f docker/Dockerfile .
+        docker build -t us-east1-docker.pkg.dev/${{ env.PROJECT_ID }}/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
+        # docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }} -f docker/Dockerfile .
 
     - name: List Docker images
       run: docker images     
 
     - name: Push Docker image
       run: |
-        # docker push us-east1-docker.pkg.dev/${{ env.PROJECT_ID }}/images/hello-world:${{ github.sha }}
-        docker push gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }}
+        docker push us-east1-docker.pkg.dev/${{ env.PROJECT_ID }}/images/hello-world:${{ github.sha }}
+        # docker push gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }}
       
     - name: Initialize Terraform
       run: terraform init infra/terraform/${{ env.TF_ENV }}
