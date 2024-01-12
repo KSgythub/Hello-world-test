@@ -10,7 +10,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      PROJECT_ID: ${{ secrets.PROD_GCP_PROJECT_ID }}
+      PROJECT_ID: hello-world-begin
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
       run: |
         gcloud auth configure-docker 
         gcloud auth configure-docker us-east1-docker.pkg.dev 
-        docker build -t us-east1-docker.pkg.dev/hello-world-begin/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
+        docker build -t us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
         # docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }} -f docker/Dockerfile .
 
     - name: List Docker images
@@ -43,7 +43,7 @@ jobs:
 
     - name: Push Docker image
       run: |
-        docker push us-east1-docker.pkg.dev/hello-world-begin/images/hello-world:${{ github.sha }}
+        docker push us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }}
         # docker push gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }}
       
     - name: Initialize Terraform
