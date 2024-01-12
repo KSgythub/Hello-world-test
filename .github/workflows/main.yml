@@ -9,7 +9,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    env:
+      PROJECT_ID: ${{ secrets.PROD_GCP_PROJECT_ID }}
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -31,8 +32,8 @@ jobs:
     - name: Build and Push Docker image
       run: |
         gcloud auth configure-docker --quiet
-        docker build -t gcr.io/$PROJECT_ID/hello-world:${{ github.sha }} -f docker/Dockerfile .
-        docker push gcr.io/$PROJECT_ID/hello-world:${{ github.sha }}
+        docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }} -f docker/Dockerfile .
+        docker push gcr.io/${{ env.PROJECT_ID }}:${{ github.sha }}
 
     - name: Initialize Terraform
       run: terraform init infra/terraform/${{ env.TF_ENV }}
