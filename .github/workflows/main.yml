@@ -41,7 +41,7 @@ jobs:
 
     - name: Push Docker image
       run: |
-        docker push gcr.io/${{ env.PROJECT_ID }}:${{ github.sha }}
+        docker push gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }}
       
     - name: Initialize Terraform
       run: terraform init infra/terraform/${{ env.TF_ENV }}
