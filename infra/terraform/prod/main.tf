@@ -1,7 +1,7 @@
 resource "google_compute_instance" "default" {
   name         = "web-server"
   machine_type = "e2-micro"
-  zone         = "${var.gcp_region}-a"
+  zone         = "${var.gcp_region}"
 
   boot_disk {
     initialize_params {
