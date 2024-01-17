@@ -27,7 +27,7 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
       with:
         service_account_key: ${{ secrets.PROD_GCP_SA_KEY }}
-        project_id: ${{ secrets.PROD_GCP_PROJECT_ID }}
+        project_id: ${{ env.PROJECT_ID }}
         export_default_credentials: true
 
     - name: Build 
@@ -35,7 +35,8 @@ jobs:
         gcloud auth configure-docker 
         # gcloud auth configure-docker us-east1-docker.pkg.dev 
         # docker build -t us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
-        docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }} -f docker/Dockerfile .
+        # docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:latest -f docker/Dockerfile .
+        docker buildx build -t hello-world:latest -f docker/Dockerfile .
 
     - name: List Docker images
       run: docker images     
@@ -44,7 +45,9 @@ jobs:
       run: |
         # docker push us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }}
         # docker push gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }}
-        docker push gcr.io/$PROJECT_ID/hello-world:latest
+        # docker tag hello-world:latest gcr.io/$PROJECT_ID/hello-world:latest 
+        docker tag hello-world:latest gcr.io/hello-world-begin/hello-world:latest
+        docker push gcr.io/hello-world-begin/hello-world:latest
       
     - name: Initialize Terraform
       run: terraform init infra/terraform/${{ env.TF_ENV }}
