@@ -12,31 +12,35 @@ jobs:
       PROJECT_ID: hello-world-begin
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
+    - id: auth
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: ${{ secrets.PROD_GCP_SA_KEY }}
+      
     - name: Set up Cloud SDK for Dev
       if: contains(github.ref, 'dev/')
-      uses: google-github-actions/setup-gcloud@v0
-      with:
-        service_account_key: ${{ secrets.DEV_GCP_SA_KEY }}
-        project_id: ${{ secrets.DEV_GCP_PROJECT_ID }}
-        export_default_credentials: true
+      uses: google-github-actions/setup-gcloud@v2
+      # with:
+      #   service_account_key: ${{ secrets.DEV_GCP_SA_KEY }}
+      #   project_id: ${{ secrets.DEV_GCP_PROJECT_ID }}
+      #   export_default_credentials: true
 
     - name: Set up Cloud SDK for Prod
       if: startsWith(github.ref, 'prod/') 
-      uses: google-github-actions/setup-gcloud@v0
-      with:
-        service_account_key: ${{ secrets.PROD_GCP_SA_KEY }}
-        project_id: ${{ env.PROJECT_ID }}
-        export_default_credentials: true
-
+      uses: google-github-actions/setup-gcloud@v2
+      # with:
+      #   service_account_key: ${{ secrets.PROD_GCP_SA_KEY }}
+      #   project_id: ${{ env.PROJECT_ID }}
+       
     - name: Build 
       run: |
-        gcloud auth configure-docker 
         # gcloud auth configure-docker us-east1-docker.pkg.dev 
         # docker build -t us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
         # docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:latest -f docker/Dockerfile .
         docker buildx build -t hello-world:latest -f docker/Dockerfile .
+        gcloud auth configure-docker --quiet
 
     - name: List Docker images
       run: docker images     
