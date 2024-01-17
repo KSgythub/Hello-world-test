@@ -1,8 +1,14 @@
 terraform {
-    backend "gcs" { 
-      bucket  = "terraform-state-back-hiring"
-      prefix  = "prod"
+  backend "gcs" {
+    bucket  = "terraform-state-back-hiring"
+    prefix  = "prod"
+  }
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 5.12.0"
     }
+  }
 }
 
 
@@ -12,11 +18,3 @@ provider "google" {
 }
 
 
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 5.12.0"
-    }
-  }
-}

@@ -79,6 +79,6 @@ jobs:
 
     - name: Terraform Apply for Prod
       if:  ${{ github.ref == 'refs/heads/prod' }}
-      run: terraform apply -auto-approve -input=false -var="image_tag=latest" 
+      run: terraform -chdir=infra/terraform/prod apply -auto-approve -input=false -var="image_tag=latest" 
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }}
