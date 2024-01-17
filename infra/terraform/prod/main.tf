@@ -1,5 +1,5 @@
 resource "google_compute_instance" "prod_instance" {
-  name         = "web-server"
+  name         = "web-server-prod"
   machine_type = "e2-micro"
   zone         = "${var.gcp_region}-b"
 
