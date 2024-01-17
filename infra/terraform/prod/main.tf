@@ -1,7 +1,7 @@
 resource "google_compute_instance" "prod_instance" {
   name         = "web-server"
   machine_type = "e2-micro"
-  zone         = "${var.gcp_region}-a"
+  zone         = "${var.gcp_region}-b"
 
   boot_disk {
     initialize_params {
