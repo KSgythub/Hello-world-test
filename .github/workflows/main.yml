@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PROJECT_ID: hello-world-begin
+    defaults:
+      run:
+        shell: bash  
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
