@@ -1,7 +1,7 @@
-variable "gcp_credentials_file" {
-  description = "The GCP credentials file"
-  type        = string
-}
+# variable "gcp_credentials_file" {
+#   description = "The GCP credentials file"
+#   type        = string
+# }
 
 variable "gcp_project" {
   description = "The GCP project ID"
