@@ -5,6 +5,8 @@ set -e
 # export gcp_project="your-gcp-project-id"
 # export image_tag="desired-image-tag"
 
+gcloud auth configure-docker --quiet
+
 # Install Docker
 sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
