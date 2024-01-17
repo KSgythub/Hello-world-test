@@ -1,14 +1,12 @@
-provider "google" {
-  credentials = var.gcp_credentials_file
-  project     = var.gcp_project
-  region      = var.gcp_region
+terraform {
+    backend "gcs" { 
+      bucket  = "terraform-state-jb-cicdproject"
+      prefix  = "prod"
+    }
 }
 
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 3.5"
-    }
-  }
+
+provider "google" {
+  project = var.gcp_project
+  region = var.gcp_region
 }
