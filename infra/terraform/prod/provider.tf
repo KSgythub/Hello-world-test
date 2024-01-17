@@ -1,3 +1,8 @@
+provider "google" {
+  project = var.gcp_project
+  region = var.gcp_region
+}
+
 terraform {
   backend "gcs" {
     bucket  = "terraform-state-back-hiring"
@@ -10,10 +15,3 @@ terraform {
     }
   }
 }
-
-provider "google" {
-  project = var.gcp_project
-  region = var.gcp_region
-}
-
-
