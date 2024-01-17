@@ -60,15 +60,15 @@ jobs:
     
     - name: Terraform Init
       run: terraform -chdir=infra/terraform/prod init
-      # env:
-      #   GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }} 
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }} 
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform -chdir=infra/terraform/prod plan -input=false 
       continue-on-error: true
-      # env:
-      #   GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }}
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }}
 
     - name: Terraform Apply for Dev
       if:  ${{ github.ref == 'refs/heads/dev' }}
@@ -80,5 +80,5 @@ jobs:
     - name: Terraform Apply for Prod
       if:  ${{ github.ref == 'refs/heads/prod' }}
       run: terraform apply -auto-approve -input=false -var="image_tag=latest" 
-      # env:
-      #   GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }}
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }}
