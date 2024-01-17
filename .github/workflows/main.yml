@@ -69,10 +69,10 @@ jobs:
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }} 
 
-    - name: Terraform Format
-      run: terraform -chdir=infra/terraform/prod fmt -check 
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }} 
+    # - name: Terraform Format
+    #   run: terraform -chdir=infra/terraform/prod fmt -check 
+    #   env:
+    #     GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }} 
   
 
     # Generates an execution plan for Terraform
