@@ -16,8 +16,9 @@ resource "google_compute_instance" "prod_instance" {
     }
   }
 
-  metadata_startup_script = templatefile("${path.module}/startup-script.sh.tmpl", {
+  metadata_startup_script = templatefile("../startup-script.sh", {
     image_tag = var.image_tag
+    gcp_project = var.gcp_project
   })
 
   tags = ["http-server"]
