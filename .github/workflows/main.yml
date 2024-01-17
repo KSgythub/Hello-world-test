@@ -8,6 +8,10 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: infra/terraform/prod/
     env:
       PROJECT_ID: hello-world-begin
     steps:
@@ -59,14 +63,13 @@ jobs:
       uses: hashicorp/setup-terraform@v2
     
     - name: Terraform Init
-      run: terraform init infra/terraform/prod
+      run: terraform init 
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }} 
 
-
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -input=false infra/terraform/prod
+      run: terraform plan -input=false 
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }}
 
@@ -79,6 +82,6 @@ jobs:
 
     - name: Terraform Apply for Prod
       if:  ${{ github.ref == 'refs/heads/prod' }}
-      run:  terraform apply -auto-approve -input=false -var="image_tag=latest" infra/terraform/prod
+      run: terraform apply -auto-approve -input=false -var="image_tag=latest" 
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }}
