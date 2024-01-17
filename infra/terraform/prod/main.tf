@@ -2,6 +2,7 @@ resource "google_compute_instance" "prod_instance" {
   name         = "web-server-prod"
   machine_type = "e2-micro"
   zone         = "${var.gcp_region}-b"
+  # allow_stopping_for_update = true
 
   boot_disk {
     initialize_params {
@@ -22,6 +23,13 @@ resource "google_compute_instance" "prod_instance" {
   })
 
   tags = ["http-server"]
+
+
+  service_account {
+   
+    email  = "github-actions@hello-world-begin.iam.gserviceaccount.com"
+    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+  }
 
 }
 
