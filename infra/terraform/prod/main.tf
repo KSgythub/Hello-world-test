@@ -1,7 +1,7 @@
 resource "compute_instance" "prod" {
   name         = "web-server"
   machine_type = "e2-micro"
-  zone         = "${var.gcp_region}"
+  zone         = "${var.gcp_region}-a"
 
   boot_disk {
     initialize_params {
@@ -19,6 +19,9 @@ resource "compute_instance" "prod" {
   metadata_startup_script = templatefile("${path.module}/startup-script.sh.tmpl", {
     image_tag = var.image_tag
   })
+
+  tags = ["http-server"]
+
 }
 
 resource "compute_firewall" "prod" {
@@ -31,4 +34,5 @@ resource "compute_firewall" "prod" {
   }
 
   source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["http-server"]
 }

@@ -1,7 +1,12 @@
+variable "gcp_credentials_file" {
+  description = "The GCP credentials file"
+  type        = string
+}
+
 variable "gcp_project" {
   description = "The GCP project ID"
   type        = string
-  default = "hello-world"
+  default = "hello-world-begin"
 }
 
 variable "gcp_region" {
@@ -13,5 +18,5 @@ variable "gcp_region" {
 variable "image_tag" {
   description = "The Docker image tag to deploy"
   type        = string
-  default = "latest"
+  default     = "latest"
 }

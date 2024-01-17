@@ -53,17 +53,21 @@ jobs:
         docker tag hello-world:latest gcr.io/hello-world-begin/hello-world:latest
         docker push gcr.io/hello-world-begin/hello-world:latest
       
-    - name: Initialize Terraform
-      run: terraform init infra/terraform/${{ env.TF_ENV }}
+    # - name: Initialize Terraform
+    #   run: terraform init infra/terraform/${{ env.TF_ENV }}
 
     - name: Terraform Apply for Dev
       if: contains(github.ref, 'dev/')
-      run: |
+      run: |  
+        terraform init infra/terraform/dev
         terraform workspace select dev || terraform workspace new dev
         terraform apply -auto-approve -var="image_tag=${{ github.sha }}" infra/terraform/dev
 
     - name: Terraform Apply for Prod
       if: startsWith(github.ref, 'prod/')
       run: |
+        terraform init infra/terraform/prod
         terraform workspace select prod || terraform workspace new prod
-        terraform apply -auto-approve -var="image_tag=${{ github.sha }}" infra/terraform/prod
+        terraform apply -auto-approve -var="image_tag=latest" infra/terraform/prod
+      env:
+         TF_VAR_gcp_credentials_file: ${{ secrets.PROD_GCP_SA_KEY }} 
