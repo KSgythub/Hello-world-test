@@ -59,14 +59,14 @@ jobs:
       uses: hashicorp/setup-terraform@v2
     
     - name: Terraform Init
-      run: terraform init
+      run: terraform init infra/terraform/prod
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }} 
 
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -input=false infra/terraform/prod
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.PROD_GCP_SA_KEY }}
 
