@@ -1,4 +1,4 @@
-resource "google_compute_instance" "default" {
+resource "compute_instance" "prod" {
   name         = "web-server"
   machine_type = "e2-micro"
   zone         = "${var.gcp_region}"
@@ -21,7 +21,7 @@ resource "google_compute_instance" "default" {
   })
 }
 
-resource "google_compute_firewall" "default" {
+resource "compute_firewall" "prod" {
   name    = "allow-http"
   network = "default"
 

@@ -3,7 +3,6 @@ name: CI/CD Workflow
 on:
   push:
     branches:
-      - main
       - dev
       - prod
 jobs:
@@ -34,17 +33,18 @@ jobs:
     - name: Build 
       run: |
         gcloud auth configure-docker 
-        gcloud auth configure-docker us-east1-docker.pkg.dev 
-        docker build -t us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
-        # docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }} -f docker/Dockerfile .
+        # gcloud auth configure-docker us-east1-docker.pkg.dev 
+        # docker build -t us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }} -f docker/Dockerfile .
+        docker build -t gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }} -f docker/Dockerfile .
 
     - name: List Docker images
       run: docker images     
 
     - name: Push Docker image
       run: |
-        docker push us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }}
+        # docker push us-east1-docker.pkg.dev/$PROJECT_ID/images/hello-world:${{ github.sha }}
         # docker push gcr.io/${{ env.PROJECT_ID }}/hello-world:${{ github.sha }}
+        docker push gcr.io/$PROJECT_ID/hello-world:latest
       
     - name: Initialize Terraform
       run: terraform init infra/terraform/${{ env.TF_ENV }}
